@@ -11,7 +11,7 @@ from staketaxcsv.algo.export_tx import (
     export_reward_tx,
     export_send_tx,
     export_spend_fee_tx,
-    export_unknown
+    export_unknown,
 )
 from staketaxcsv.algo.transaction import (
     get_transaction_note,
@@ -21,7 +21,7 @@ from staketaxcsv.algo.transaction import (
     is_asset_optin,
     is_transfer,
     is_transfer_participant,
-    is_transfer_receiver
+    is_transfer_receiver,
 )
 
 
@@ -124,6 +124,8 @@ def _handle_transfer(wallet_address, transaction, details, exporter, txinfo, ass
                 export_reward_tx(exporter, txinfo, receive_asset, fee_amount, "Pact", z_index)
             elif txsender in co.ADDRESS_GOVERNANCE_REWARDS_POOLS:
                 export_reward_tx(exporter, txinfo, receive_asset, fee_amount, "Governance")
+            elif txsender in (co.ADDRESS_PLANETWATCH, co.ADDRESS_PLANETWATCH_AWAIR):
+                export_reward_tx(exporter, txinfo, receive_asset, fee_amount, "PlanetWatch", z_index)
             else:
                 if "tinymanStaking/v1" in note:
                     export_reward_tx(exporter, txinfo, receive_asset, fee_amount, "Tinyman", z_index)
